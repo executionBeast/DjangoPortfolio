@@ -1,0 +1,54 @@
+blogs app ---> views.py:
+
+    from django.shortcuts import render
+    from django.http import HttpResponse
+
+    def blog1(request):
+        return HttpResponse("<h1> First Blog app Successful </h1> <a href='/'>homepage</a>")
+
+    def blog2(request):
+        return HttpResponse("<h1> Second Blog app Successful </h1>  <a href='/'>homepage</a>")
+
+
+blogs app--> urls.py:
+    from blogs import views
+
+    urlpatterns = [
+        path('blog1',views.blog1,name='blog'),    
+        path('blog2',views.blog2,name='blog1'),
+    ]
+
+
+home app --> views.py:
+    from django.http import HttpResponse
+    from django.shortcuts import render
+
+    # Create your views here.
+
+    def index(request):
+        return HttpResponse('''<h1>This is home page</h1> <a href='blog1'>blogpage1</a> <a href='blog2'>blogpage2</a> ''')
+
+
+
+home app --> urls.py:
+    from django.urls import path
+    from home import views
+
+    urlpatterns = [
+        path('',views.index,name='index'),
+    ]
+
+
+
+
+project's---> urls.py:
+    ""
+    from django.contrib import admin
+    from django.urls import path,include
+
+    urlpatterns = [
+        path('admin/', admin.site.urls),
+        path('',include('home.urls')),
+        path('',include('blogs.urls')),
+    ]
+
